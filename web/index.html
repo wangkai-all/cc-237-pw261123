@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>逐点交付接收页</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <h1>逐点交付接收页</h1>
+    <p class="sub">目录通知 → 文件观察 → 判齐入库 → 逐个发布 → 下游领取</p>
+  </div>
+  <div class="controls">
+    <span id="receiver-state" class="pill">—</span>
+    <button id="btn-stop" class="btn danger">停止接收器</button>
+    <button id="btn-resume" class="btn">恢复接收器</button>
+    <span class="tick">自动刷新 1.5s</span>
+  </div>
+</header>
+
+<section class="panel" id="store-panel">
+  <h2>接收存储与空间成本</h2>
+  <div id="store-stats" class="stat-grid"></div>
+  <p class="hint" id="store-hint">
+    独立复制：来源仍可改写时，完整复制字节，空间成本=文件大小，来源后续改动与接收方无关；
+    可靠引用（硬链接）：immutable 且来源真实只读时建立，额外空间≈0，只读位+内容寻址+双重哈希保证完整；
+    跨文件系统自动降级为复制。所有对象入库前后均做 SHA-256 校验。
+  </p>
+</section>
+
+<main id="batches"></main>
+
+<section class="panel">
+  <h2>事件流（发布依据与每次领取都在此留痕）</h2>
+  <div id="events" class="events"></div>
+</section>
+
+<dialog id="evidence-dialog">
+  <h3 id="evidence-title">发布依据</h3>
+  <pre id="evidence-body"></pre>
+  <form method="dialog"><button class="btn">关闭</button></form>
+</dialog>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
